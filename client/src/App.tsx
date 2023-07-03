@@ -4,29 +4,35 @@ import "./App.css";
 import usePost from "./hooks/usePost";
 
 const App = () => {
-  const [userId, SetUserId] = useState("");
-  const { data: todo, error, isLoading } = usePost(userId);
+  const pageSize = 10;
+  const [page, SetPage] = useState(1);
+  const { data: todo, error, isLoading } = usePost({ page, pageSize });
 
   if (error) return <>error</>;
   if (isLoading) return <>Loading ...</>;
   return (
     <>
-      <select
-        value={userId}
-        onChange={(e) => {
-          SetUserId(e.target.value);
-        }}
-      >
-        <option value=""></option>
-        <option value="1">User 1</option>
-        <option value="2">User 2</option>
-        <option value="3">User 3</option>
-      </select>
       <ul>
         {todo?.map((data) => (
           <li key={data.id}>{data.title}</li>
         ))}
       </ul>
+      <button
+        disabled={page === 1}
+        onClick={() => {
+          SetPage(page - 1);
+        }}
+      >
+        previous
+      </button>
+      <button
+        disabled={page === pageSize}
+        onClick={() => {
+          SetPage(page + 1);
+        }}
+      >
+        next
+      </button>
     </>
   );
 };
