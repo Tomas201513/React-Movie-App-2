@@ -5,33 +5,35 @@ import usePost from "./hooks/usePost";
 
 const App = () => {
   const pageSize = 10;
-  const [page, SetPage] = useState(1);
-  const { data: todo, error, isLoading } = usePost({ page, pageSize });
+  const {
+    data: todo,
+    error,
+    isLoading,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = usePost({ pageSize });
 
   if (error) return <>error</>;
   if (isLoading) return <>Loading ...</>;
   return (
     <>
       <ul>
-        {todo?.map((data) => (
-          <li key={data.id}>{data.title}</li>
+        {todo?.pages.map((page) => (
+          <>
+            {page.map((post) => (
+              <li key={post.id}>{post.title}</li>
+            ))}
+          </>
         ))}
       </ul>
+
       <button
-        disabled={page === 1}
+        disabled={isFetchingNextPage}
         onClick={() => {
-          SetPage(page - 1);
+          fetchNextPage();
         }}
       >
-        previous
-      </button>
-      <button
-        disabled={page === pageSize}
-        onClick={() => {
-          SetPage(page + 1);
-        }}
-      >
-        next
+        {isFetchingNextPage ? "Loading ..." : "Load More"}
       </button>
     </>
   );
