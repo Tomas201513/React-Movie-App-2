@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useQuery } from "react-query";
 import { CACHE_KEY_TODOS } from "./constants";
 import APIClient from '../services/apiClient'
