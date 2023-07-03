@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-interface Todo {
+export interface Todo {
     id: number;
     userId: number;
     title: string;
@@ -9,7 +9,7 @@ interface Todo {
   }
   
   
-  const useData = () => {
+export const useTodo = () => {
     const fetchData = () =>
     axios
       .get<Todo[]>("https://jsonplaceholder.typicode.com/todos")
@@ -21,4 +21,4 @@ interface Todo {
 
   }
   
-  export default useData
+
